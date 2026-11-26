@@ -77,6 +77,8 @@ export function App() {
   const handleStartExperience = useCallback(() => {
     setSkipIntroMotion(false);
     setEntered(true);
+    setSoundEnabled(true);
+    soundRef.current?.setEnabled(true, false);
   }, []);
 
   const handleSkipIntro = useCallback(() => {

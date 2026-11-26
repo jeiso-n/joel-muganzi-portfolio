@@ -59,7 +59,17 @@ test.describe('Joel Muganzi — Digital Workshop Portfolio', () => {
     await expect(page.getByRole('heading', { name: 'Joel Muganzi' })).toBeVisible();
     const startBtn = page.getByRole('button', { name: /Start Experience/i });
     await expect(startBtn).toBeEnabled();
+    // Enter workshop (automatically activates chill ambient music on user gesture)
     await startBtn.click();
+
+    const musicBtn = page.getByRole('button', { name: /Music On/i });
+    await expect(musicBtn).toBeVisible();
+    await expect(musicBtn).toHaveAttribute('aria-pressed', 'true');
+    await musicBtn.click();
+    await expect(page.getByRole('button', { name: /Music Off/i })).toHaveAttribute(
+      'aria-pressed',
+      'false',
+    );
 
     // 2. Verify 3D canvas & overview hotspots
     const canvas = page.locator('canvas');

@@ -84,10 +84,10 @@ export function StudioHud({
             className={`hud-icon-btn ${soundEnabled ? 'is-active' : ''}`}
             aria-pressed={soundEnabled}
             onClick={onToggleSound}
-            title="Toggle studio audio feedback"
+            title="Toggle chill ambient studio music and audio feedback"
           >
             {soundEnabled ? <Volume2 size={14} /> : <VolumeX size={14} />}
-            <span>{soundEnabled ? 'Audio On' : 'Audio Off'}</span>
+            <span>{soundEnabled ? 'Music On' : 'Music Off'}</span>
           </button>
 
           {webglAvailable && (
