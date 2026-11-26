@@ -8,11 +8,12 @@ The portfolio communicates one clear engineering identity: building useful softw
 
 | Station | 3D Focus | What Visitors Explore |
 | :--- | :--- | :--- |
-| **00 · Studio Overview** | Full architectural floating workshop diorama | Bounded orbital exploration, spatial hotspot pins, and quick keyboard navigation (`0`–`4`, `Esc`) |
+| **00 · Studio Overview** | Full architectural floating workshop diorama | Bounded orbital exploration, spatial hotspot pins, and quick keyboard navigation (`0`–`5`, `Esc`) |
 | **01 · Workstation** | Dual-monitor walnut engineering desk | Live-synced showcase of 5 verified projects led by **Victoria University Navigator** (`PRIMARY FEATURE PROJECT`) |
-| **02 · Field Notebook** | Open sketchbook, brass pen & steaming coffee mug | Joel's story, Victoria University Software Engineering studies, independent cybersecurity learning, **Blender & 3D Creativity**, and **The Learning Lab** (MySQL Workbench YouTube tutorials) |
+| **02 · Field Notebook** | Open sketchbook, brass pen & steaming coffee mug | Joel's story, Victoria University Software Engineering studies, independent cybersecurity learning, and **Blender & 3D Creativity** |
 | **03 · Systems Wall** | Modular systems rack & GLSL holographic core | **Building With AI. Engineering With Discipline.** interactive workflow control center + filterable verified tech stack |
-| **04 · Comms Console** | Signal waveform terminal & broadcast microphone rig | Environment-driven, URL-validated links for Email (`mailto:`), GitHub, X, LinkedIn, YouTube, and TikTok + Collaboration Brief Composer |
+| **04 · YouTube Wall** | Physical alternating ON/OFF neon YouTube wall sign | Direct-click 3D wall sign opening `@jeison_muganzi` in a new tab + **Workshop Media Station** featuring Blender 3D animation, John the Ripper demo, Kali Linux intro, and MySQL Workbench tutorials with click-to-play embeds |
+| **05 · Comms Console** | Signal waveform terminal & broadcast microphone rig | Environment-driven, URL-validated links for Email (`mailto:`), GitHub, X, LinkedIn, YouTube, and TikTok + Collaboration Brief Composer |
 
 ## Featured Project Hierarchy
 

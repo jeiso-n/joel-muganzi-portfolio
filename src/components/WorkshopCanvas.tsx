@@ -15,6 +15,7 @@ interface WorkshopCanvasProps {
   onReady: () => void;
   onSelectStation: (station: StationId) => void;
   onHoverStation: (station: Exclude<StationId, 'overview'> | null) => void;
+  onYouTubeSignClick: () => void;
 }
 
 export default function WorkshopCanvas({
@@ -28,6 +29,7 @@ export default function WorkshopCanvas({
   onReady,
   onSelectStation,
   onHoverStation,
+  onYouTubeSignClick,
 }: WorkshopCanvasProps) {
   const hostRef = useRef<HTMLDivElement | null>(null);
   const experienceRef = useRef<WorkshopExperience | null>(null);
@@ -35,12 +37,13 @@ export default function WorkshopCanvas({
     projects: null,
     about: null,
     tech: null,
+    youtube: null,
     contact: null,
   });
 
   // Stable callback refs so the 3D engine is only instantiated once
-  const callbacksRef = useRef({ onReady, onSelectStation, onHoverStation });
-  callbacksRef.current = { onReady, onSelectStation, onHoverStation };
+  const callbacksRef = useRef({ onReady, onSelectStation, onHoverStation, onYouTubeSignClick });
+  callbacksRef.current = { onReady, onSelectStation, onHoverStation, onYouTubeSignClick };
 
   useEffect(() => {
     const container = hostRef.current;
@@ -66,6 +69,7 @@ export default function WorkshopCanvas({
       onStationSelect: (station) => callbacksRef.current.onSelectStation(station),
       onStationHover: (station) => callbacksRef.current.onHoverStation(station),
       onHotspotsUpdate: handleHotspots,
+      onYouTubeSignClick: () => callbacksRef.current.onYouTubeSignClick(),
     });
 
     experienceRef.current = experience;
@@ -116,7 +120,7 @@ export default function WorkshopCanvas({
                   hotspotRefs.current[id] = el;
                 }}
                 type="button"
-                className={`hotspot-pin ${hoveredStation === id ? 'is-hovered' : ''}`}
+                className={`hotspot-pin ${id === 'youtube' ? 'hotspot-pin--youtube' : ''} ${hoveredStation === id ? 'is-hovered' : ''}`}
                 style={{ opacity: 0 }}
                 onMouseEnter={() => {
                   onHoverStation(id);

@@ -167,8 +167,50 @@ test.describe('Joel Muganzi — Digital Workshop Portfolio', () => {
     await page.getByRole('button', { name: 'Victoria University Navigator' }).first().click();
     await expect(page.getByRole('heading', { name: 'Victoria University Navigator' })).toBeVisible();
 
-    // 6. Comms Console — all 6 env-driven verified channels (Email, GitHub, X, LinkedIn, YouTube, TikTok)
-    await page.getByRole('button', { name: /04\s*Comms Console/i }).click();
+    // 6. YouTube Wall Media Station — verify glowing pin, Blender 4-month spotlight, Kali Linux, John the Ripper, MySQL tutorials, and click-to-play embed
+    await page.getByRole('button', { name: /04\s*YouTube Wall/i }).click();
+    await expect(page.getByRole('heading', { name: 'YouTube Wall' })).toBeVisible();
+    await expect(
+      page.getByRole('heading', { name: /Blender 3D Animation — Four Months Behind One Minute/i }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole('link', { name: /Watch on YouTube/i }).first(),
+    ).toHaveAttribute('href', 'https://youtu.be/o4-yHdBj5II');
+
+    // Verify zero autoplay before user clicks Play, then verify click-to-play official embed
+    await expect(page.locator('iframe.yt-embed-iframe')).toHaveCount(0);
+    await page.getByRole('button', { name: /Play Here/i }).first().click();
+    await expect(page.locator('iframe.yt-embed-iframe')).toHaveAttribute(
+      'src',
+      'https://www.youtube-nocookie.com/embed/o4-yHdBj5II?rel=0',
+    );
+    await page.getByRole('button', { name: /Close embedded player/i }).click();
+    await expect(page.locator('iframe.yt-embed-iframe')).toHaveCount(0);
+
+    // Verify Cybersecurity, Linux, and Database Tutorials categories & supplied video links
+    await page.getByRole('tab', { name: 'Cybersecurity' }).click();
+    await expect(
+      page.getByRole('heading', { name: /John the Ripper Password Cracking Demonstration/i }),
+    ).toBeVisible();
+    await expect(page.getByRole('link', { name: /Watch on YouTube/i })).toHaveAttribute(
+      'href',
+      'https://youtu.be/JQ5HfuUe6pg',
+    );
+
+    await page.getByRole('tab', { name: 'Linux' }).click();
+    await expect(page.getByRole('heading', { name: /Introduction to Kali Linux/i })).toBeVisible();
+    await expect(page.getByRole('link', { name: /Watch on YouTube/i })).toHaveAttribute(
+      'href',
+      'https://youtu.be/ZTe_zz4czzg',
+    );
+
+    await page.getByRole('tab', { name: 'Database Tutorials' }).click();
+    await expect(
+      page.getByRole('heading', { name: /How To Use Primary Keys In MySQL Workbench/i }),
+    ).toBeVisible();
+
+    // 7. Comms Console — all 6 env-driven verified channels (Email, GitHub, X, LinkedIn, YouTube, TikTok)
+    await page.getByRole('button', { name: /05\s*Comms Console/i }).click();
     await expect(page.getByRole('heading', { name: 'Comms Console' })).toBeVisible();
 
     await expect(page.getByRole('link', { name: /jeisonmuganzi255@gmail\.com/i })).toHaveAttribute(
@@ -195,12 +237,15 @@ test.describe('Joel Muganzi — Digital Workshop Portfolio', () => {
       'https://www.tiktok.com/@jeiso_n',
     );
 
-    // 7. Escape returns to overview & 2D mode toggles cleanly
+    // 8. Escape returns to overview & 2D mode exposes accessible YouTube Wall Sign
     await page.keyboard.press('Escape');
     await expect(page.getByRole('region')).toHaveCount(0);
 
     await page.getByRole('button', { name: /2D View/i }).click();
     await expect(page.getByText(/2D Architectural Mode/i)).toBeVisible();
+    await expect(
+      page.getByRole('link', { name: /Open Joel Muganzi's YouTube channel/i }),
+    ).toHaveAttribute('href', 'https://www.youtube.com/@jeison_muganzi');
     await page.getByRole('button', { name: /Switch Back to Interactive 3D Studio/i }).click();
     await expect(page.locator('canvas')).toBeVisible();
 

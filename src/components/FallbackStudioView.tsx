@@ -1,5 +1,6 @@
-import { ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight, ExternalLink, Youtube } from 'lucide-react';
 import { INTERACTIVE_STATION_ORDER, PROFILE, STATIONS } from '../data/portfolio';
+import { YOUTUBE_CHANNEL_URL } from '../data/youtube';
 import type { StationId } from '../types/workshop';
 
 interface FallbackStudioViewProps {
@@ -40,6 +41,20 @@ export function FallbackStudioView({
             <span className="meta-note">
               WebGL is unavailable on this device/browser; running full-featured 2D studio mode.
             </span>
+          )}
+
+          {YOUTUBE_CHANNEL_URL && (
+            <a
+              href={YOUTUBE_CHANNEL_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="yt-fallback-sign"
+              aria-label="Open Joel Muganzi's YouTube channel in a new tab"
+            >
+              <Youtube size={16} />
+              <span>YouTube Wall Sign · @jeison_muganzi</span>
+              <ExternalLink size={13} />
+            </a>
           )}
         </div>
       </section>

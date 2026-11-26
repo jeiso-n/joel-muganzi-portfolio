@@ -7,7 +7,9 @@ import { AboutSection } from './components/sections/AboutSection';
 import { ContactSection } from './components/sections/ContactSection';
 import { ProjectsSection } from './components/sections/ProjectsSection';
 import { TechSection } from './components/sections/TechSection';
+import { YouTubeSection } from './components/sections/YouTubeSection';
 import { PROJECTS } from './data/portfolio';
+import { YOUTUBE_CHANNEL_URL } from './data/youtube';
 import { SoundEngine } from './experience/soundEngine';
 import { detectWebGLSupport } from './experience/WorkshopExperience';
 import type { ProjectKey, StationId } from './types/workshop';
@@ -86,6 +88,12 @@ export function App() {
     setEntered(true);
   }, []);
 
+  const handleYouTubeSignClick = useCallback(() => {
+    if (YOUTUBE_CHANNEL_URL) {
+      window.open(YOUTUBE_CHANNEL_URL, '_blank', 'noopener,noreferrer');
+    }
+  }, []);
+
   const handleToggleSound = useCallback(() => {
     setSoundEnabled((prev) => {
       const next = !prev;
@@ -117,6 +125,8 @@ export function App() {
       } else if (event.key === '3') {
         handleSelectStation('tech');
       } else if (event.key === '4') {
+        handleSelectStation('youtube');
+      } else if (event.key === '5') {
         handleSelectStation('contact');
       }
     };
@@ -146,6 +156,7 @@ export function App() {
             onReady={() => setSceneReady(true)}
             onSelectStation={handleSelectStation}
             onHoverStation={setHoveredStation}
+            onYouTubeSignClick={handleYouTubeSignClick}
           />
         </Suspense>
       ) : (
@@ -204,6 +215,7 @@ export function App() {
           {activeStation === 'tech' && (
             <TechSection onOpenProject={handleOpenProjectFromTech} />
           )}
+          {activeStation === 'youtube' && <YouTubeSection />}
           {activeStation === 'contact' && <ContactSection />}
         </StationDrawer>
       )}

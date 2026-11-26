@@ -11,6 +11,7 @@ import {
   createSkylineWindowTexture,
   createTerrazzoTexture,
   createWalnutTexture,
+  createYouTubeSignLabelTexture,
 } from './textures';
 
 export interface WorkshopWorldHandles {
@@ -27,13 +28,33 @@ function tagInteractive(
   object: THREE.Object3D,
   stationId: Exclude<StationId, 'overview'>,
   collector: THREE.Object3D[],
+  extraAction?: string,
 ): void {
   object.traverse((child) => {
     if (child instanceof THREE.Mesh) {
       child.userData.stationId = stationId;
+      if (extraAction) {
+        child.userData.action = extraAction;
+      }
       collector.push(child);
     }
   });
+}
+
+function createRoundedRectShape(width: number, height: number, radius: number): THREE.Shape {
+  const x = -width / 2;
+  const y = -height / 2;
+  const shape = new THREE.Shape();
+  shape.moveTo(x + radius, y);
+  shape.lineTo(x + width - radius, y);
+  shape.quadraticCurveTo(x + width, y, x + width, y + radius);
+  shape.lineTo(x + width, y + height - radius);
+  shape.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+  shape.lineTo(x + radius, y + height);
+  shape.quadraticCurveTo(x, y + height, x, y + height - radius);
+  shape.lineTo(x, y + radius);
+  shape.quadraticCurveTo(x, y, x + radius, y);
+  return shape;
 }
 
 export function buildWorkshopWorld(initialProject: ProjectRecord): WorkshopWorldHandles {
@@ -49,6 +70,7 @@ export function buildWorkshopWorld(initialProject: ProjectRecord): WorkshopWorld
   const skylineTex = createSkylineWindowTexture();
   const plaqueTex = createPlaqueTexture();
   const sideCodeTex = createSideCodeTexture();
+  const youtubeLabelTex = createYouTubeSignLabelTexture();
   disposableTextures.push(
     walnutTex,
     terrazzoTex,
@@ -57,6 +79,7 @@ export function buildWorkshopWorld(initialProject: ProjectRecord): WorkshopWorld
     skylineTex,
     plaqueTex,
     sideCodeTex,
+    youtubeLabelTex,
   );
 
   const monitorDisplay = new DynamicMonitorDisplay(initialProject);
@@ -743,6 +766,120 @@ export function buildWorkshopWorld(initialProject: ProjectRecord): WorkshopWorld
   tagInteractive(contactGroup, 'contact', interactiveMeshes);
   root.add(contactGroup);
 
+  // ==================== STATION 04: ILLUMINATED 3D YOUTUBE WALL SIGN ====================
+  // Mounted flush on the unobstructed left architectural wall bay above the botanical plant.
+  const youtubeGroup = new THREE.Group();
+  youtubeGroup.position.set(-3.61, 2.48, 2.12);
+  youtubeGroup.rotation.y = Math.PI / 2;
+
+  // Machined metallic housing & brass wall standoffs
+  const ytHousing = new THREE.Mesh(new THREE.BoxGeometry(1.24, 0.78, 0.08), darkMetalMat);
+  ytHousing.castShadow = true;
+  youtubeGroup.add(ytHousing);
+
+  const ytBackplate = new THREE.Mesh(
+    new THREE.BoxGeometry(1.14, 0.68, 0.02),
+    new THREE.MeshStandardMaterial({ color: '#0d1018', roughness: 0.7, metalness: 0.35 }),
+  );
+  ytBackplate.position.z = 0.042;
+  youtubeGroup.add(ytBackplate);
+
+  [
+    [-0.54, 0.31],
+    [0.54, 0.31],
+    [-0.54, -0.31],
+    [0.54, -0.31],
+  ].forEach(([sx, sy]) => {
+    const bolt = new THREE.Mesh(new THREE.CylinderGeometry(0.022, 0.022, 0.09, 10), brassMat);
+    bolt.rotation.x = Math.PI / 2;
+    bolt.position.set(sx, sy, -0.02);
+    youtubeGroup.add(bolt);
+  });
+
+  // Neon perimeter frame tubes (alternating smooth ON/OFF glow)
+  const ytNeonTubeMat = new THREE.MeshStandardMaterial({
+    color: '#ff343c',
+    emissive: new THREE.Color('#ff222b'),
+    emissiveIntensity: 1.4,
+    roughness: 0.2,
+    metalness: 0.1,
+  });
+
+  const topRail = new THREE.Mesh(new THREE.BoxGeometry(1.16, 0.02, 0.024), ytNeonTubeMat);
+  topRail.position.set(0, 0.34, 0.052);
+  youtubeGroup.add(topRail);
+
+  const bottomRail = new THREE.Mesh(new THREE.BoxGeometry(1.16, 0.02, 0.024), ytNeonTubeMat);
+  bottomRail.position.set(0, -0.34, 0.052);
+  youtubeGroup.add(bottomRail);
+
+  const leftRail = new THREE.Mesh(new THREE.BoxGeometry(0.02, 0.68, 0.024), ytNeonTubeMat);
+  leftRail.position.set(-0.57, 0, 0.052);
+  youtubeGroup.add(leftRail);
+
+  const rightRail = new THREE.Mesh(new THREE.BoxGeometry(0.02, 0.68, 0.024), ytNeonTubeMat);
+  rightRail.position.set(0.57, 0, 0.052);
+  youtubeGroup.add(rightRail);
+
+  // Iconic rounded red YouTube play button sculpted in 3D
+  const ytBadgeMat = new THREE.MeshStandardMaterial({
+    color: '#e5252d',
+    emissive: new THREE.Color('#ff1f29'),
+    emissiveIntensity: 1.5,
+    roughness: 0.24,
+    metalness: 0.12,
+  });
+  const ytBadgeGeo = new THREE.ExtrudeGeometry(createRoundedRectShape(0.56, 0.38, 0.1), {
+    depth: 0.04,
+    bevelEnabled: true,
+    bevelThickness: 0.012,
+    bevelSize: 0.012,
+    bevelSegments: 3,
+  });
+  const ytBadgeMesh = new THREE.Mesh(ytBadgeGeo, ytBadgeMat);
+  ytBadgeMesh.position.set(0, 0.07, 0.05);
+  youtubeGroup.add(ytBadgeMesh);
+
+  // Crisp illuminated white play triangle
+  const playShape = new THREE.Shape();
+  playShape.moveTo(-0.075, -0.095);
+  playShape.lineTo(0.11, 0);
+  playShape.lineTo(-0.075, 0.095);
+  playShape.closePath();
+
+  const ytPlayMat = new THREE.MeshStandardMaterial({
+    color: '#f8f5ef',
+    emissive: new THREE.Color('#fff5f0'),
+    emissiveIntensity: 0.9,
+    roughness: 0.22,
+  });
+  const ytPlayMesh = new THREE.Mesh(
+    new THREE.ExtrudeGeometry(playShape, { depth: 0.018, bevelEnabled: false }),
+    ytPlayMat,
+  );
+  ytPlayMesh.position.set(0.01, 0.07, 0.098);
+  youtubeGroup.add(ytPlayMesh);
+
+  // Illuminated channel lettering plate below the play icon
+  const ytLabelMat = new THREE.MeshStandardMaterial({
+    map: youtubeLabelTex,
+    emissive: new THREE.Color('#ff4d54'),
+    emissiveMap: youtubeLabelTex,
+    emissiveIntensity: 0.9,
+    roughness: 0.35,
+  });
+  const ytLabelMesh = new THREE.Mesh(new THREE.PlaneGeometry(1.04, 0.16), ytLabelMat);
+  ytLabelMesh.position.set(0, -0.22, 0.055);
+  youtubeGroup.add(ytLabelMesh);
+
+  // Subtle surrounding crimson wall-wash light synced with the alternating ON/OFF cycle
+  const youtubeWallLight = new THREE.PointLight('#ff323c', 1.8, 4.0, 1.8);
+  youtubeWallLight.position.set(0, 0.05, 0.48);
+  youtubeGroup.add(youtubeWallLight);
+
+  tagInteractive(youtubeGroup, 'youtube', interactiveMeshes, 'open-youtube-channel');
+  root.add(youtubeGroup);
+
   // ==================== AMBIENT DUST MOTES ====================
   const particleCount = 90;
   const particlePositions = new Float32Array(particleCount * 3);
@@ -807,7 +944,10 @@ export function buildWorkshopWorld(initialProject: ProjectRecord): WorkshopWorld
   commsLight.position.set(2.15, 1.75, 1.35);
   root.add(commsLight);
 
-  const indicatorMaterials: Record<Exclude<StationId, 'overview'>, THREE.MeshStandardMaterial> = {
+  const indicatorMaterials: Record<
+    Exclude<StationId, 'overview' | 'youtube'>,
+    THREE.MeshStandardMaterial
+  > = {
     projects: projectsIndicator.material as THREE.MeshStandardMaterial,
     about: aboutIndicator.material as THREE.MeshStandardMaterial,
     tech: emitterRing.material as THREE.MeshStandardMaterial,
@@ -850,12 +990,27 @@ export function buildWorkshopWorld(initialProject: ProjectRecord): WorkshopWorld
       mat.emissiveIntensity = 0.85 + Math.sin(elapsed * 2.4 + idx * 0.9) * 0.45;
     });
 
+    // Smooth alternating ON / OFF neon glow for the physical 3D YouTube wall sign
+    // ~4.4s cycle: smoothly illuminates to warm crimson ON state, holds briefly, then dims smoothly OFF
+    const rawWave = Math.sin(elapsed * 1.42);
+    const smoothCycle = Math.min(1, Math.max(0, (rawWave + 0.65) / 1.3));
+    const easedGlow = smoothCycle * smoothCycle * (3 - 2 * smoothCycle);
+    const ytHoverBoost = hoveredStation === 'youtube' ? 0.55 : 0;
+
+    ytBadgeMat.emissiveIntensity = 0.18 + easedGlow * 1.95 + ytHoverBoost;
+    ytNeonTubeMat.emissiveIntensity = 0.12 + easedGlow * 1.75 + ytHoverBoost;
+    ytPlayMat.emissiveIntensity = 0.16 + easedGlow * 1.05 + ytHoverBoost * 0.5;
+    ytLabelMat.emissiveIntensity = 0.15 + easedGlow * 0.95 + ytHoverBoost * 0.4;
+    youtubeWallLight.intensity = 0.22 + easedGlow * 2.35 + ytHoverBoost * 0.8;
+
     // Subtle hover emphasis on station indicators
-    (Object.keys(indicatorMaterials) as Exclude<StationId, 'overview'>[]).forEach((id) => {
-      const mat = indicatorMaterials[id];
-      const desired = hoveredStation === id ? 3.2 : 1.35;
-      mat.emissiveIntensity += (desired - mat.emissiveIntensity) * Math.min(1, delta * 10);
-    });
+    (Object.keys(indicatorMaterials) as Exclude<StationId, 'overview' | 'youtube'>[]).forEach(
+      (id) => {
+        const mat = indicatorMaterials[id];
+        const desired = hoveredStation === id ? 3.2 : 1.35;
+        mat.emissiveIntensity += (desired - mat.emissiveIntensity) * Math.min(1, delta * 10);
+      },
+    );
 
     // Throttle dynamic canvas updates (~24 fps is smooth and light on CPU/GPU)
     displayAccumulator += delta;
@@ -889,6 +1044,7 @@ export function buildWorkshopWorld(initialProject: ProjectRecord): WorkshopWorld
       projects: projectsGroup,
       about: aboutGroup,
       tech: techGroup,
+      youtube: youtubeGroup,
       contact: contactGroup,
     },
     monitorDisplay,

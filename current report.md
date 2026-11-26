@@ -4,7 +4,7 @@
 - **Repository:** `D:\Projects\joel-muganzi-portfolio` (`main`)
 - **Remote:** `https://github.com/jeiso-n/joel-muganzi-portfolio.git`
 - **Live Site (GitHub Pages):** `https://jeiso-n.github.io/joel-muganzi-portfolio/` *(verified HTTP 200, 0 console errors)*
-- **Status:** Live on GitHub Pages via GitHub Actions (`deploy-pages.yml` Run #3 `45808923851` — `build` and `deploy` both **PASS**), chill generative ambient background music implemented, all 5 projects in verified priority order, and verified with `npm run build` + `3/3` Playwright E2E tests. Awaiting independent ChatGPT review.
+- **Status:** Incremental glowing 3D YouTube Wall Sign + YouTube Media Station showcase added on top of the existing Digital Workshop without rebuilding existing architecture; verified with `npm run build`, `3/3` Playwright E2E tests (`0` console/page errors), visual QA screenshots, and live GitHub Pages deployment. Awaiting independent ChatGPT review.
 
 ---
 
@@ -54,7 +54,9 @@
 - **AI-Powered Engineering (`Systems Wall` — *Building With AI. Engineering With Discipline.*):** Interactive 6-pillar workflow explorer covering AI-Assisted Implementation, Secure Agent Workflows, Cybersecurity Fundamentals (Learning), Verification & Quality Control, Multi-Agent Source of Truth, and Professional Git & Delivery.
 - **Cybersecurity Learning Journey:** Honestly framed as independent self-directed fundamentals study alongside Software Engineering coursework (application security basics, credential hygiene, input/URL validation, least-privilege agent boundaries)—zero fabricated certifications or security-expert claims.
 - **Creative Technology — Blender & 3D Animation (`Field Notebook`):** Dedicated subsection explaining honestly how Joel's background exploring 3D animation in Blender inspired the Digital Workshop concept and spatial presentation (and noting the `campus.blend` reference asset in Victoria University Navigator without fabricating a 3D art portfolio).
-- **The Learning Lab — YouTube & MySQL Workbench Series (`Field Notebook`):** Showcases Joel's YouTube channel (`https://www.youtube.com/@jeison_muganzi`), MySQL Workbench beginner tutorial series, **3 verified public videos** fetched via YouTube oEmbed (`SOe3XJszoKc`, `TO9nwUG8cFA`, `mHTPVD2xers`) with real watch links and official `i.ytimg.com` thumbnails, plus a clear **Visit YouTube Channel** action.
+- **The Learning Lab & Station 04 · YouTube Wall (`src/data/youtube.ts`, `src/components/sections/YouTubeSection.tsx`, `src/experience/workshopWorld.ts`):**
+  - **Physical 3D Glowing YouTube Wall Sign:** Sculpted metallic housing with brass wall standoffs, rounded-rectangle red 3D play emblem, illuminated white play triangle, neon crimson perimeter frame, illuminated `YOUTUBE • @JEISON_MUGANZI` nameplate, and synced local crimson wall-wash `PointLight` mounted on the unobstructed left architectural wall bay above the botanical plant. Smoothly cycles ON and OFF (~4.4s eased wave) inside the existing `workshopWorld.update()` loop with hover boost, pointer cursor, and direct click opening `https://www.youtube.com/@jeison_muganzi` in a new tab (plus accessible glowing wall sign link in 2D Fallback Mode).
+  - **Data-Driven Workshop Media Station (`04 · YouTube Wall`, shortcut `4`):** Filterable across `All`, `3D Animation`, `Cybersecurity`, `Linux`, and `Database Tutorials`, with real YouTube oEmbed-verified thumbnails, **click-to-play privacy-enhanced YouTube embeds (`youtube-nocookie.com`, zero autoplay)**, graceful direct YouTube fallback links, and a featured creative highlight for **Blender 3D Animation — Four Months Behind One Minute** (`https://youtu.be/o4-yHdBj5II`), alongside **John the Ripper Password Cracking Demonstration** (`https://youtu.be/JQ5HfuUe6pg`), **Introduction to Kali Linux** (`https://youtu.be/ZTe_zz4czzg`), and all **3 verified MySQL Workbench tutorials** (`SOe3XJszoKc`, `TO9nwUG8cFA`, `mHTPVD2xers`).
 
 ---
 
@@ -89,7 +91,9 @@ Centralized in `src/config/publicEnv.ts` reading all 9 `VITE_PUBLIC_*` public br
 4. `764bfad` — `docs: update README and current report for Digital Workshop revision`
 5. `c25aaa2` — `feat(audio): add chill calm generative ambient studio background music` (verified with `npm run build` + `3/3` Playwright E2E tests including `Music On / Music Off` toggle and `0` console errors; pushed & verified via `git ls-remote origin main`)
 6. `dd32edf` — `ci(pages): configure relative asset paths and GitHub Pages deployment workflow`
-7. `7756d06` — `docs(pages): remove PAT-only enablement flag and document GitHub Pages setup` — triggered **GitHub Actions Run #3** (`45808923851`): `build` **PASS** (`22s`), `deploy` **PASS** (`10s`); live site verified at `https://jeiso-n.github.io/joel-muganzi-portfolio/` with **0 console errors** and all 11 network assets (`index`, `three`, `gsap`, `WorkshopCanvas`, CSS, fonts, `previews/vu-navigator-3d.png`) returning HTTP `200`.
+7. `7756d06` — `docs(pages): remove PAT-only enablement flag and document GitHub Pages setup`
+8. `6084aeb` — `docs: record verified live GitHub Pages deployment in current report`
+9. Incremental YouTube Wall Sign & Media Station feature commit — verified with `npm run build` (`4.76s`), `npm run test:e2e` (`3/3` passing, `0` console/page errors, verifying 3D sign hotspot, Blender 4-month spotlight, John the Ripper, Kali Linux, MySQL tutorials, click-to-play embed with zero autoplay, and 2D fallback YouTube link), visual QA screenshots, pushed to `origin/main`, and deployed via GitHub Actions to `https://jeiso-n.github.io/joel-muganzi-portfolio/`.
 
 ---
 

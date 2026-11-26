@@ -1,4 +1,4 @@
-export type StationId = 'overview' | 'projects' | 'about' | 'tech' | 'contact';
+export type StationId = 'overview' | 'projects' | 'about' | 'tech' | 'youtube' | 'contact';
 
 export type ProjectStatus =
   | 'Live Product'

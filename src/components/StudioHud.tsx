@@ -10,6 +10,7 @@ import {
   Radio,
   Volume2,
   VolumeX,
+  Youtube,
 } from 'lucide-react';
 import { PROFILE, STATIONS } from '../data/portfolio';
 import type { StationId } from '../types/workshop';
@@ -31,6 +32,7 @@ const DOCK_ITEMS: { id: StationId; icon: typeof Compass }[] = [
   { id: 'projects', icon: Monitor },
   { id: 'about', icon: FileText },
   { id: 'tech', icon: Cpu },
+  { id: 'youtube', icon: Youtube },
   { id: 'contact', icon: Radio },
 ];
 
@@ -106,7 +108,7 @@ export function StudioHud({
 
       {use3D && activeStation === 'overview' && (
         <div className="hud-hint" aria-hidden="true">
-          Drag to orbit · Scroll to zoom · Click any station or press 1–4
+          Drag to orbit · Scroll to zoom · Click any station or press 1–5
         </div>
       )}
 

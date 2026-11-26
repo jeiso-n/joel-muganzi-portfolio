@@ -11,6 +11,7 @@ export interface ExperienceCallbacks {
   onStationSelect: (station: StationId) => void;
   onStationHover: (station: Exclude<StationId, 'overview'> | null) => void;
   onHotspotsUpdate: (projections: HotspotProjection[]) => void;
+  onYouTubeSignClick?: () => void;
 }
 
 export function detectWebGLSupport(): boolean {
@@ -50,6 +51,7 @@ export class WorkshopExperience {
     projects: new THREE.Vector3(...(STATIONS.projects.hotspotAnchor ?? [0, 2, -1])),
     about: new THREE.Vector3(...(STATIONS.about.hotspotAnchor ?? [-2, 1.5, 0])),
     tech: new THREE.Vector3(...(STATIONS.tech.hotspotAnchor ?? [2.5, 2.2, -1.5])),
+    youtube: new THREE.Vector3(...(STATIONS.youtube.hotspotAnchor ?? [-3.48, 3.05, 2.12])),
     contact: new THREE.Vector3(...(STATIONS.contact.hotspotAnchor ?? [2.5, 1.8, 1.2])),
   };
 
@@ -133,18 +135,20 @@ export class WorkshopExperience {
     this.pointer.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
   }
 
-  private pickStation(): Exclude<StationId, 'overview'> | null {
+  private pickObject(): { stationId: Exclude<StationId, 'overview'>; action?: string } | null {
     this.raycaster.setFromCamera(this.pointer, this.camera);
     const hits = this.raycaster.intersectObjects(this.world.interactiveMeshes, false);
     if (hits.length === 0) return null;
     const stationId = hits[0].object.userData.stationId as Exclude<StationId, 'overview'> | undefined;
-    return stationId ?? null;
+    if (!stationId) return null;
+    const action = hits[0].object.userData.action as string | undefined;
+    return { stationId, action };
   }
 
   private handlePointerMove = (event: PointerEvent): void => {
     if (!this.hasEntered || this.isTransitioning) return;
     this.updateNormalizedPointer(event);
-    const hit = this.pickStation();
+    const hit = this.pickObject()?.stationId ?? null;
     if (hit !== this.hoveredStation) {
       this.hoveredStation = hit;
       this.renderer.domElement.style.cursor = hit ? 'pointer' : 'grab';
@@ -173,10 +177,13 @@ export class WorkshopExperience {
     if (dist > 7 || this.isTransitioning) return;
 
     this.updateNormalizedPointer(event);
-    const hit = this.pickStation();
-    if (hit) {
+    const picked = this.pickObject();
+    if (picked) {
       this.sound.playSelect();
-      this.callbacks.onStationSelect(hit);
+      if (picked.action === 'open-youtube-channel') {
+        this.callbacks.onYouTubeSignClick?.();
+      }
+      this.callbacks.onStationSelect(picked.stationId);
     }
   };
 

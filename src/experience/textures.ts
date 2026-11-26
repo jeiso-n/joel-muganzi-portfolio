@@ -589,3 +589,18 @@ export class DynamicCommsDisplay {
     this.texture.dispose();
   }
 }
+
+export function createYouTubeSignLabelTexture(): THREE.CanvasTexture {
+  const [canvas, ctx] = createCanvas(512, 96);
+  ctx.fillStyle = '#121620';
+  ctx.fillRect(0, 0, 512, 96);
+
+  ctx.fillStyle = '#ff4d54';
+  ctx.font = 'bold 26px monospace';
+  ctx.textAlign = 'center';
+  ctx.fillText('YOUTUBE  •  @JEISON_MUGANZI', 256, 58);
+
+  const texture = new THREE.CanvasTexture(canvas);
+  texture.colorSpace = THREE.SRGBColorSpace;
+  return texture;
+}
