@@ -3,7 +3,8 @@
 - **Date:** 2026-11-26
 - **Repository:** `D:\Projects\joel-muganzi-portfolio` (`main`)
 - **Remote:** `https://github.com/jeiso-n/joel-muganzi-portfolio.git`
-- **Status:** Revision directive implemented in full across milestone commits pushed directly to GitHub (`origin/main`), verified with `tsc --noEmit`, `vite build`, `playwright test` (`3/3` passing, `0` console/page errors), and desktop/mobile visual inspection. Awaiting independent ChatGPT review.
+- **Live Site (GitHub Pages):** `https://jeiso-n.github.io/joel-muganzi-portfolio/` *(verified HTTP 200, 0 console errors)*
+- **Status:** Live on GitHub Pages via GitHub Actions (`deploy-pages.yml` Run #3 `45808923851` — `build` and `deploy` both **PASS**), chill generative ambient background music implemented, all 5 projects in verified priority order, and verified with `npm run build` + `3/3` Playwright E2E tests. Awaiting independent ChatGPT review.
 
 ---
 
@@ -87,12 +88,12 @@ Centralized in `src/config/publicEnv.ts` reading all 9 `VITE_PUBLIC_*` public br
 3. `bc133b7` — `test(workshop): verify 5-project hierarchy, env validation, and polish 3D monitor framing`
 4. `764bfad` — `docs: update README and current report for Digital Workshop revision`
 5. `c25aaa2` — `feat(audio): add chill calm generative ambient studio background music` (verified with `npm run build` + `3/3` Playwright E2E tests including `Music On / Music Off` toggle and `0` console errors; pushed & verified via `git ls-remote origin main`)
-6. `dd32edf` — `ci(pages): configure relative asset paths and GitHub Pages deployment workflow` (`base: './'`, `./favicon.svg`, `./previews/vu-navigator-3d.png`, `.github/workflows/deploy-pages.yml`; verified with `npm run build` + `3/3` Playwright E2E tests; GitHub Actions run `45805017259` `build` job **PASSED**, `deploy` job blocked on `Configure GitHub Pages` because GitHub Pages has not yet been enabled in repository Settings: `has_pages=False`)
+6. `dd32edf` — `ci(pages): configure relative asset paths and GitHub Pages deployment workflow`
+7. `7756d06` — `docs(pages): remove PAT-only enablement flag and document GitHub Pages setup` — triggered **GitHub Actions Run #3** (`45808923851`): `build` **PASS** (`22s`), `deploy` **PASS** (`10s`); live site verified at `https://jeiso-n.github.io/joel-muganzi-portfolio/` with **0 console errors** and all 11 network assets (`index`, `three`, `gsap`, `WorkshopCanvas`, CSS, fonts, `previews/vu-navigator-3d.png`) returning HTTP `200`.
 
 ---
 
 ## 7. Outstanding Items & Recommended Next Steps
 
-- **Enable GitHub Pages (1-Click Action Required by Repository Owner):** Open `https://github.com/jeiso-n/joel-muganzi-portfolio/settings/pages`, set **Build and deployment → Source** to **GitHub Actions**, and re-run the workflow so `https://jeiso-n.github.io/joel-muganzi-portfolio/` publishes live.
 - **Independent ChatGPT Review:** Ready for review against all acceptance criteria.
 - **Optional Future Visuals:** Screenshots for CodeSound Sync desktop workflow can be added under `public/previews/` later if desired.
