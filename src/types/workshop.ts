@@ -1,23 +1,33 @@
 export type StationId = 'overview' | 'projects' | 'about' | 'tech' | 'contact';
 
-export type ProjectStatus = 'Active Development' | 'Desktop MVP' | 'Concept & Prototype';
+export type ProjectStatus =
+  | 'Live Product'
+  | 'Active Development'
+  | 'Desktop MVP'
+  | 'Concept & Prototype';
 
-export type ProjectKey = 'musomi-manager' | 'codesound-sync' | 'tap-report' | 'nexus';
+export type ProjectKey =
+  | 'victoria-university-navigator'
+  | 'codesound-sync'
+  | 'tap-report'
+  | 'nexus'
+  | 'musomi-manager';
 
 export interface ProjectScreenTheme {
   accent: string;
   secondary: string;
   badge: string;
   headline: string;
-  metrics: { label: string; value: string }[];
+  previewImageUrl?: string;
+  facts: { label: string; value: string }[];
   modules: string[];
-  codeSnippet: string[];
 }
 
 export interface ProjectRecord {
   id: ProjectKey;
   index: string;
   name: string;
+  featuredBadge?: string;
   tagline: string;
   status: ProjectStatus;
   category: string;
@@ -25,6 +35,8 @@ export interface ProjectRecord {
   problemSolved: string;
   architectureHighlights: string[];
   technologies: string[];
+  previewImageUrl?: string;
+  previewImageAlt?: string;
   repository: {
     url: string | null;
     visibility: 'Public' | 'Private';
@@ -35,12 +47,28 @@ export interface ProjectRecord {
   screenTheme: ProjectScreenTheme;
 }
 
+export interface YouTubeVideoItem {
+  id: string;
+  title: string;
+  url: string;
+  thumbnailUrl: string;
+  topic: string;
+}
+
+export interface WorkflowPillar {
+  id: string;
+  code: string;
+  title: string;
+  summary: string;
+  focusPoints: string[];
+}
+
 export type TechCategory =
   | 'All'
   | 'Languages'
-  | 'Frontend & Client'
+  | 'Frontend & 3D'
   | 'Backend & Data'
-  | 'Media, AI & Quality';
+  | 'Media, Testing & Tooling';
 
 export interface TechnologyItem {
   id: string;
@@ -77,13 +105,26 @@ export interface ProfileConfig {
   roles: string[];
   philosophy: string;
   storyParagraphs: string[];
+  educationAndSecurity: { title: string; detail: string }[];
+  creativeBackground: {
+    title: string;
+    summary: string;
+    highlights: string[];
+  };
   principles: { title: string; detail: string }[];
-  communityAndCreator: { title: string; detail: string }[];
+  youtubeEducation: {
+    sectionTitle: string;
+    seriesTitle: string;
+    summary: string;
+    channelUrl: string | null;
+    videos: YouTubeVideoItem[];
+  };
   links: {
-    github: string;
-    youtube: string;
+    github: string | null;
+    youtube: string | null;
     email: string | null;
     linkedin: string | null;
     x: string | null;
+    tiktok: string | null;
   };
 }

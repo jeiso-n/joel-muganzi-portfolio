@@ -665,6 +665,57 @@ a {
   color: var(--ink-primary);
 }
 
+.project-tab--featured {
+  grid-column: 1 / -1;
+  border-color: rgba(240, 163, 82, 0.42);
+  background: rgba(240, 163, 82, 0.08);
+}
+
+.featured-banner {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  align-self: flex-start;
+  padding: 0.28rem 0.7rem;
+  border-radius: 999px;
+  background: var(--accent-amber-soft);
+  border: 1px solid var(--border-strong);
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: var(--accent-amber);
+}
+
+.project-preview-frame {
+  margin: 0;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--border-warm);
+  background: #090d14;
+}
+
+.project-preview-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+.project-preview-caption {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  border-top: 1px solid var(--border-subtle);
+}
+
 .status-badge {
   display: inline-flex;
   align-items: center;
@@ -676,6 +727,154 @@ a {
   letter-spacing: 0.06em;
   text-transform: uppercase;
   border: 1px solid transparent;
+}
+
+.status-badge--live {
+  color: #0b0e14;
+  background: var(--accent-emerald);
+  border-color: var(--accent-emerald);
+  font-weight: 600;
+}
+
+.stack-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.subcard-title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.96rem;
+  color: var(--ink-primary);
+  margin-bottom: 0.22rem;
+}
+
+/* AI Engineering Pillars */
+.pillar-selector {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.45rem;
+}
+
+.pillar-chip {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.58rem 0.7rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-subtle);
+  background: rgba(11, 14, 20, 0.55);
+  text-align: left;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--ink-secondary);
+  transition: border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+}
+
+.pillar-chip:hover {
+  border-color: var(--border-warm);
+  color: var(--ink-primary);
+}
+
+.pillar-chip.is-selected {
+  border-color: var(--accent-amber);
+  background: var(--accent-amber-soft);
+  color: var(--ink-primary);
+}
+
+.pillar-code {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  color: var(--accent-amber);
+  flex-shrink: 0;
+}
+
+.pillar-detail-box {
+  padding: 0.9rem 1rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-warm);
+  background: rgba(10, 14, 22, 0.78);
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+/* YouTube Learning Lab Videos */
+.video-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.65rem;
+}
+
+.video-card {
+  display: grid;
+  grid-template-columns: 132px 1fr;
+  gap: 0.75rem;
+  align-items: center;
+  padding: 0.55rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+  background: rgba(10, 14, 22, 0.72);
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.video-card:hover {
+  border-color: var(--border-warm);
+  background: var(--bg-card-hover);
+}
+
+.video-thumb-wrap {
+  position: relative;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+  background: #07090d;
+}
+
+.video-thumb {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.video-play-badge {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(7, 9, 13, 0.34);
+  color: var(--accent-amber);
+}
+
+.video-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.22rem;
+}
+
+.video-topic {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent-emerald);
+}
+
+.video-title {
+  font-size: 0.84rem;
+  font-weight: 600;
+  line-height: 1.38;
+  color: var(--ink-primary);
+}
+
+.channel-icon {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--accent-amber);
+  flex-shrink: 0;
 }
 
 .status-badge--active {
@@ -1109,9 +1308,14 @@ a.channel-card:hover {
   }
 
   .project-selector-grid,
+  .pillar-selector,
   .tech-grid,
   .fallback-grid,
   .schematic-metrics {
+    grid-template-columns: 1fr;
+  }
+
+  .video-card {
     grid-template-columns: 1fr;
   }
 

@@ -28,7 +28,9 @@ export function App() {
   const [skipIntroMotion, setSkipIntroMotion] = useState(false);
 
   const [activeStation, setActiveStation] = useState<StationId>('overview');
-  const [selectedProjectId, setSelectedProjectId] = useState<ProjectKey>('musomi-manager');
+  const [selectedProjectId, setSelectedProjectId] = useState<ProjectKey>(
+    'victoria-university-navigator',
+  );
   const [hoveredStation, setHoveredStation] = useState<Exclude<StationId, 'overview'> | null>(null);
   const [showHotspots, setShowHotspots] = useState(true);
   const [soundEnabled, setSoundEnabled] = useState(false);

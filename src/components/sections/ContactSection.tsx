@@ -1,10 +1,29 @@
 import { useState, type FormEvent } from 'react';
-import { Check, Copy, ExternalLink, Github, Linkedin, Mail, Youtube } from 'lucide-react';
+import {
+  Check,
+  Copy,
+  ExternalLink,
+  Github,
+  Globe,
+  Linkedin,
+  Mail,
+  MessageSquare,
+  Youtube,
+} from 'lucide-react';
 import { PROFILE } from '../../data/portfolio';
+
+function formatDisplayHost(url: string): string {
+  try {
+    const parsed = new URL(url);
+    return `${parsed.hostname.replace(/^www\./, '')}${parsed.pathname.replace(/\/$/, '')}`;
+  } catch {
+    return url;
+  }
+}
 
 export function ContactSection() {
   const [senderName, setSenderName] = useState('');
-  const [topic, setTopic] = useState('Product Collaboration');
+  const [topic, setTopic] = useState('AI-Assisted Software / Product Collaboration');
   const [message, setMessage] = useState('');
   const [copied, setCopied] = useState(false);
 
@@ -12,7 +31,8 @@ export function ContactSection() {
     `Topic: ${topic}`,
     `From: ${senderName.trim() || 'Visitor'}`,
     '',
-    message.trim() || 'Hi Joel, I explored your Digital Workshop and would love to discuss a project or collaboration.',
+    message.trim() ||
+      'Hi Joel, I explored your Digital Workshop and would love to discuss a project or collaboration.',
   ].join('\n');
 
   const handleComposeSubmit = async (event: FormEvent) => {
@@ -24,6 +44,10 @@ export function ContactSection() {
       return;
     }
 
+    await handleCopyBrief();
+  };
+
+  const handleCopyBrief = async () => {
     try {
       await navigator.clipboard.writeText(formattedBrief);
       setCopied(true);
@@ -33,6 +57,41 @@ export function ContactSection() {
     }
   };
 
+  const socialChannels = [
+    {
+      key: 'github',
+      label: 'GitHub',
+      url: PROFILE.links.github,
+      icon: Github,
+    },
+    {
+      key: 'x',
+      label: 'X (Twitter)',
+      url: PROFILE.links.x,
+      icon: MessageSquare,
+    },
+    {
+      key: 'linkedin',
+      label: 'LinkedIn',
+      url: PROFILE.links.linkedin,
+      icon: Linkedin,
+    },
+    {
+      key: 'youtube',
+      label: 'YouTube · MySQL & Tech Tutorials',
+      url: PROFILE.links.youtube,
+      icon: Youtube,
+    },
+    {
+      key: 'tiktok',
+      label: 'TikTok',
+      url: PROFILE.links.tiktok,
+      icon: Globe,
+    },
+  ].filter((item): item is { key: string; label: string; url: string; icon: typeof Github } =>
+    Boolean(item.url),
+  );
+
   return (
     <>
       <div className="dossier-card">
@@ -41,88 +100,44 @@ export function ContactSection() {
           <span className="status-badge status-badge--active">Open to Collaborate</span>
         </div>
         <p className="dossier-text">
-          Whether you are exploring a software product idea, collaborating on developer
-          tooling, organizing a tech community event in Uganda, or hiring a product-minded
-          engineer, I&apos;d be glad to connect.
+          Whether you are collaborating on a practical software product, exploring disciplined
+          AI-assisted engineering workflows, organizing developer community sessions, or
+          connecting over technical content, reach out through any verified channel below.
         </p>
       </div>
 
-      <div className="channel-list">
-        <a
-          href={PROFILE.links.github}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="channel-card"
-        >
-          <div>
-            <span className="channel-label">GitHub · Verified</span>
-            <span className="channel-value">github.com/jeiso-n</span>
-          </div>
-          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, color: 'var(--accent-amber)' }}>
-            <Github size={16} />
-            <ExternalLink size={13} />
-          </span>
-        </a>
-
-        <a
-          href={PROFILE.links.youtube}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="channel-card"
-        >
-          <div>
-            <span className="channel-label">YouTube · Ugandan Tech Channel</span>
-            <span className="channel-value">youtube.com/@jeiso_n</span>
-          </div>
-          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, color: 'var(--accent-amber)' }}>
-            <Youtube size={16} />
-            <ExternalLink size={13} />
-          </span>
-        </a>
-
-        {PROFILE.links.email ? (
+      <div className="channel-list" aria-label="Verified contact and social links">
+        {PROFILE.links.email && (
           <a href={`mailto:${PROFILE.links.email}`} className="channel-card">
             <div>
               <span className="channel-label">Direct Email</span>
               <span className="channel-value">{PROFILE.links.email}</span>
             </div>
-            <Mail size={16} color="var(--accent-emerald)" />
+            <span className="channel-icon">
+              <Mail size={16} />
+              <ExternalLink size={13} />
+            </span>
           </a>
-        ) : (
-          <div className="channel-card channel-card--muted">
-            <div>
-              <span className="channel-label">Direct Email · Configurable</span>
-              <span className="channel-value">Set VITE_CONTACT_EMAIL in .env to enable direct mailto</span>
-            </div>
-            <Mail size={16} color="var(--ink-muted)" />
-          </div>
         )}
 
-        {PROFILE.links.linkedin ? (
+        {socialChannels.map(({ key, label, url, icon: Icon }) => (
           <a
-            href={PROFILE.links.linkedin}
+            key={key}
+            href={url}
             target="_blank"
             rel="noopener noreferrer"
             className="channel-card"
           >
             <div>
-              <span className="channel-label">LinkedIn</span>
-              <span className="channel-value">{PROFILE.links.linkedin}</span>
+              <span className="channel-label">{label}</span>
+              <span className="channel-value">{formatDisplayHost(url)}</span>
             </div>
-            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, color: 'var(--accent-amber)' }}>
-              <Linkedin size={16} />
+            <span className="channel-icon">
+              <Icon size={16} />
               <ExternalLink size={13} />
             </span>
           </a>
-        ) : (
-          <div className="channel-card channel-card--muted">
-            <div>
-              <span className="channel-label">LinkedIn · Configurable</span>
-              <span className="channel-value">Set VITE_LINKEDIN_URL in .env to publish profile link</span>
-            </div>
-            <Linkedin size={16} color="var(--ink-muted)" />
-          </div>
-        )}
+        ))}
       </div>
 
       <div className="dossier-card">
@@ -148,10 +163,18 @@ export function ContactSection() {
               value={topic}
               onChange={(e) => setTopic(e.target.value)}
             >
-              <option value="Product Collaboration">Product Collaboration</option>
-              <option value="Software Engineering Opportunity">Software Engineering Opportunity</option>
-              <option value="Developer Community / Speaking">Developer Community / Speaking</option>
-              <option value="Tech YouTube / Content Collab">Tech YouTube / Content Collab</option>
+              <option value="AI-Assisted Software / Product Collaboration">
+                AI-Assisted Software / Product Collaboration
+              </option>
+              <option value="Software Engineering Opportunity">
+                Software Engineering Opportunity
+              </option>
+              <option value="Developer Community / Speaking">
+                Developer Community / Speaking
+              </option>
+              <option value="YouTube / Technical Education">
+                YouTube / Technical Education
+              </option>
             </select>
           </div>
 
@@ -167,27 +190,30 @@ export function ContactSection() {
           </div>
 
           <div className="link-row">
-            <button type="submit" className="btn-primary">
-              {PROFILE.links.email ? (
+            {PROFILE.links.email && (
+              <button type="submit" className="btn-primary">
+                <Mail size={15} />
+                <span>Open Email Draft</span>
+              </button>
+            )}
+
+            <button type="button" className="btn-secondary" onClick={handleCopyBrief}>
+              {copied ? (
                 <>
-                  <Mail size={15} />
-                  <span>Open Email Draft</span>
-                </>
-              ) : copied ? (
-                <>
-                  <Check size={15} />
-                  <span>Brief Copied to Clipboard</span>
+                  <Check size={14} />
+                  <span>Brief Copied</span>
                 </>
               ) : (
                 <>
-                  <Copy size={15} />
-                  <span>Copy Outreach Brief</span>
+                  <Copy size={14} />
+                  <span>Copy Brief</span>
                 </>
               )}
             </button>
           </div>
           <p className="meta-note">
-            No third-party tracking or form servers required. Configure <code>VITE_CONTACT_EMAIL</code> to route directly into your mail client.
+            Public profile links are loaded from <code>VITE_PUBLIC_*</code> environment
+            configuration with URL validation and safe fallbacks.
           </p>
         </form>
       </div>
