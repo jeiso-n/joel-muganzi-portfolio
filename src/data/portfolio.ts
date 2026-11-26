@@ -237,7 +237,7 @@ export const PROJECTS: ProjectRecord[] = [
       'Blender (Reference Asset)',
       'GitHub Pages',
     ],
-    previewImageUrl: '/previews/vu-navigator-3d.png',
+    previewImageUrl: './previews/vu-navigator-3d.png',
     previewImageAlt:
       'Live 3D indoor building view of Victoria University Tower Navigator showing multistorey floor selection and navigation controls',
     repository: {
@@ -253,7 +253,7 @@ export const PROJECTS: ProjectRecord[] = [
       secondary: '#38d9a9',
       badge: 'PRIMARY FEATURE PROJECT // LIVE',
       headline: 'VICTORIA UNIVERSITY NAVIGATOR — 2D + 3D CAMPUS MAP',
-      previewImageUrl: '/previews/vu-navigator-3d.png',
+      previewImageUrl: './previews/vu-navigator-3d.png',
       facts: [
         { label: 'COVERAGE', value: '12 Levels (B2–F9)' },
         { label: 'MAPPED SPACES', value: '138 Rooms & Labs' },
