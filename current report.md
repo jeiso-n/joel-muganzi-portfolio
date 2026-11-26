@@ -82,15 +82,17 @@ Centralized in `src/config/publicEnv.ts` reading all 9 `VITE_PUBLIC_*` public br
 
 ## 6. Milestone Commits Pushed to GitHub (`origin/main`)
 
-1. `7d95348` — `feat(portfolio): build Joel's Digital Workshop 3D interactive portfolio` (initial Digital Workshop build, pushed & verified).
-2. `875c066` — `feat(workshop): prioritize Victoria University Navigator, AI workflow, Blender story, YouTube lab, and env-driven socials` (pushed & verified on `origin/main`).
-3. `bc133b7` — `test(workshop): verify 5-project hierarchy, env validation, and polish 3D monitor framing` (pushed to `origin/main`).
-4. Documentation milestone commit (`README.md` + `current report.md`) — pushed immediately following this update and verified via `git ls-remote origin main`.
+1. `7d95348` — `feat(portfolio): build Joel's Digital Workshop 3D interactive portfolio`
+2. `875c066` — `feat(workshop): prioritize Victoria University Navigator, AI workflow, Blender story, YouTube lab, and env-driven socials`
+3. `bc133b7` — `test(workshop): verify 5-project hierarchy, env validation, and polish 3D monitor framing`
+4. `764bfad` — `docs: update README and current report for Digital Workshop revision`
+5. `c25aaa2` — `feat(audio): add chill calm generative ambient studio background music` (verified with `npm run build` + `3/3` Playwright E2E tests including `Music On / Music Off` toggle and `0` console errors; pushed & verified via `git ls-remote origin main`)
+6. `dd32edf` — `ci(pages): configure relative asset paths and GitHub Pages deployment workflow` (`base: './'`, `./favicon.svg`, `./previews/vu-navigator-3d.png`, `.github/workflows/deploy-pages.yml`; verified with `npm run build` + `3/3` Playwright E2E tests; GitHub Actions run `45805017259` `build` job **PASSED**, `deploy` job blocked on `Configure GitHub Pages` because GitHub Pages has not yet been enabled in repository Settings: `has_pages=False`)
 
 ---
 
 ## 7. Outstanding Items & Recommended Next Steps
 
+- **Enable GitHub Pages (1-Click Action Required by Repository Owner):** Open `https://github.com/jeiso-n/joel-muganzi-portfolio/settings/pages`, set **Build and deployment → Source** to **GitHub Actions**, and re-run the workflow so `https://jeiso-n.github.io/joel-muganzi-portfolio/` publishes live.
 - **Independent ChatGPT Review:** Ready for review against all acceptance criteria.
-- **Optional Future Visuals:** Screenshots for CodeSound Sync desktop workflow can be added under `public/previews/` later if desired to complement Victoria University Navigator's live 3D screenshot.
-- **Hosting Deployment:** Deploy `dist/` to Vercel, Netlify, or GitHub Pages and configure any custom `VITE_PUBLIC_*` environment variables in the host dashboard.
+- **Optional Future Visuals:** Screenshots for CodeSound Sync desktop workflow can be added under `public/previews/` later if desired.

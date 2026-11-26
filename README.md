@@ -97,10 +97,18 @@ npm run preview     # Preview production build locally
 npm run test:e2e    # Run Playwright E2E + publicEnv validation suite
 ```
 
-## Deployment
+## Deployment (GitHub Pages)
 
-`npm run build` outputs a static bundle to `dist/` with split vendor chunks (`three`, `gsap`, application code), ready for **Vercel**, **Netlify**, **Cloudflare Pages**, or **GitHub Pages**:
+This repository includes an automated GitHub Actions deployment workflow at `.github/workflows/deploy-pages.yml` configured with relative asset paths (`base: './'`) for GitHub Pages hosting at:
 
-1. Build command: `npm run build`
-2. Output directory: `dist`
-3. Configure any desired `VITE_PUBLIC_*` overrides in your hosting provider's environment settings.
+**Target URL:** `https://jeiso-n.github.io/joel-muganzi-portfolio/`
+
+### One-Time GitHub Pages Enablement
+
+1. Open your repository on GitHub: `https://github.com/jeiso-n/joel-muganzi-portfolio/settings/pages`
+2. Under **Build and deployment → Source**, select **GitHub Actions**.
+3. Re-run the latest **Deploy Joel's Digital Workshop to GitHub Pages** workflow (or push a new commit to `main`).
+
+Every subsequent push to `main` automatically runs `npm ci`, builds `dist/`, adds `.nojekyll`, and publishes to GitHub Pages.
+
+The static `dist/` bundle also works out of the box on **Vercel**, **Netlify**, or **Cloudflare Pages** (`npm run build`, output directory `dist`).
