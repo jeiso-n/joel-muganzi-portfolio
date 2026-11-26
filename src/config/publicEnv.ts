@@ -70,10 +70,14 @@ export function validateEmailAddress(raw: string | undefined | null): string | n
 }
 
 export function resolvePublicEnv(
-  source: Partial<Record<string, string | undefined>> = import.meta.env,
+  source?: Partial<Record<string, string | undefined>>,
 ): PublicPortfolioEnv {
+  const envSource =
+    source ??
+    ((import.meta as unknown as { env?: Partial<Record<string, string | undefined>> }).env ?? {});
+
   const readWithFallback = (key: string, fallback: string): string => {
-    const value = source[key]?.trim();
+    const value = envSource[key]?.trim();
     return value && value.length > 0 ? value : fallback;
   };
 

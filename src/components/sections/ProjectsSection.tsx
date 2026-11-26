@@ -74,7 +74,6 @@ export function ProjectsSection({
               src={activeProject.previewImageUrl}
               alt={activeProject.previewImageAlt ?? `${activeProject.name} interface preview`}
               className="project-preview-img"
-              loading="lazy"
             />
             <figcaption className="project-preview-caption">
               <span>Live 3D Campus Interface Preview</span>

@@ -413,12 +413,12 @@ export class DynamicMonitorDisplay {
     if (previewImg) {
       // Split showcase for primary project with genuine live preview screenshot
       ctx.fillStyle = '#f3efe6';
-      ctx.font = 'bold 34px sans-serif';
-      ctx.fillText(project.name.toUpperCase(), 30, 104);
+      ctx.font = 'bold 26px sans-serif';
+      ctx.fillText(project.name.toUpperCase(), 30, 102, 434);
 
       ctx.fillStyle = '#b7bfcf';
-      ctx.font = '16px sans-serif';
-      ctx.fillText(project.tagline.slice(0, 62), 30, 134);
+      ctx.font = '15px sans-serif';
+      ctx.fillText('Unified 2D + 3D Campus Navigation · Kampala', 30, 132, 434);
 
       // Real preview screenshot framed on the right
       const imgX = 486;
