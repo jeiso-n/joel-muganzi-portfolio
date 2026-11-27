@@ -1,17 +1,19 @@
 import { ArrowUpRight, ExternalLink, Youtube } from 'lucide-react';
 import { INTERACTIVE_STATION_ORDER, PROFILE, STATIONS } from '../data/portfolio';
 import { YOUTUBE_CHANNEL_URL } from '../data/youtube';
-import type { StationId } from '../types/workshop';
+import type { StationId, WorkstationCategory } from '../types/workshop';
 
 interface FallbackStudioViewProps {
   webglAvailable: boolean;
   onSelectStation: (station: StationId) => void;
+  onOpenWorkstationCategory: (category: WorkstationCategory) => void;
   onEnable3D: () => void;
 }
 
 export function FallbackStudioView({
   webglAvailable,
   onSelectStation,
+  onOpenWorkstationCategory,
   onEnable3D,
 }: FallbackStudioViewProps) {
   return (
@@ -56,6 +58,37 @@ export function FallbackStudioView({
               <ExternalLink size={13} />
             </a>
           )}
+        </div>
+
+        <div className="fallback-quick-cats" aria-label="Direct portfolio category shortcuts">
+          <button
+            type="button"
+            className="filter-pill"
+            onClick={() => onOpenWorkstationCategory('software')}
+          >
+            Featured Software (5)
+          </button>
+          <button
+            type="button"
+            className="filter-pill"
+            onClick={() => onOpenWorkstationCategory('websites')}
+          >
+            Websites &amp; Digital Experiences (3)
+          </button>
+          <button
+            type="button"
+            className="filter-pill"
+            onClick={() => onOpenWorkstationCategory('workflows')}
+          >
+            Creative Workflows · BlenderAIStudio
+          </button>
+          <button
+            type="button"
+            className="filter-pill"
+            onClick={() => onOpenWorkstationCategory('in-development')}
+          >
+            In Development · Surgeventa
+          </button>
         </div>
       </section>
 

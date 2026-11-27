@@ -15,15 +15,31 @@ The portfolio communicates one clear engineering identity: building useful softw
 | **04 · YouTube Wall** | Physical alternating ON/OFF neon YouTube wall sign | Direct-click 3D wall sign opening `@jeison_muganzi` in a new tab + **Workshop Media Station** featuring Blender 3D animation, John the Ripper demo, Kali Linux intro, and MySQL Workbench tutorials with click-to-play embeds |
 | **05 · Comms Console** | Signal waveform terminal & broadcast microphone rig | Environment-driven, URL-validated links for Email (`mailto:`), GitHub, X, LinkedIn, YouTube, and TikTok + Collaboration Brief Composer |
 
-## Featured Project Hierarchy
+## Portfolio Information Architecture (`Station 01 · Workstation`)
 
-The portfolio strictly preserves this five-project priority order:
+The Workstation separates different dimensions of Joel's work cleanly while strictly preserving the 5 core software projects:
+
+### A. Featured Software Projects (Preserved Priority Order)
 
 1. **Victoria University Navigator** *(PRIMARY FEATURE PROJECT — Live Product)* — Unified 2D + 3D indoor campus navigation across 12 levels (`B2`–`Floor 9`) of Victoria University, Market Plaza Tower with 138 mapped spaces and multi-floor A* pathfinding ([Live Site](https://jeiso-n.github.io/victoria-university-navigator/) · [Source](https://github.com/jeiso-n/victoria-university-navigator)).
 2. **CodeSound Sync** *(Desktop MVP)* — Local-first Windows desktop app adding realistic keyboard typing and mouse-click audio to sped-up coding tutorials ([Source](https://github.com/jeiso-n/CodeSoundSync)).
 3. **TAP Report** *(Active Development — Private Repository)* — Privacy-first road-safety incident reporting platform in active development for a Kampala pilot.
 4. **Nexus** *(Concept & Prototype)* — Local-first personal productivity, scheduling, and learning coach PWA prototype ([Source](https://github.com/jeiso-n/Nexus)).
 5. **Musomi Manager** *(Active Development)* — Education management platform for Ugandan secondary school administration and term report cards ([Source](https://github.com/jeiso-n/musomi-manager)).
+
+### B. Websites & Digital Experiences
+
+1. **Enjo Constructions** — Ugandan residential house designs, floor plans, and practical building tips ([Visit Website](https://enjocontructions.netlify.app/) · [Source](https://github.com/jeiso-n/enjo_constructions)).
+2. **Vee Creations** — Kampala floral, handcrafted décor, and bespoke gift hampers showcase ([Visit Website](https://jeiso-n.github.io/vee-creations/) · [Source](https://github.com/jeiso-n/vee-creations)).
+3. **T&T Junior School** — Official school website for T & T Nursery and Junior School in Kasenge, Wakiso, Uganda ([Visit Website](https://tandtjuniorschool.com/)).
+
+### C. Creative Production Workflows
+
+- **BlenderAIStudio** *(Production Workflow · Reference Repository)* — AI-directed 3D animation production pipeline around Blender 5.3, BlendRelay MCP, Eevee previews, FFprobe verification, and a documented hybrid audio post-production standard ([Workflow Repository](https://github.com/jeiso-n/BlenderAIStudio)).
+
+### D. Currently in Development
+
+- **Surgeventa** *(In Development · Milestone 2 Verified)* — Zero-spend unified social media publishing workspace built with Next.js 16, React 19, TypeScript, Neon PostgreSQL, Drizzle ORM, and Better Auth ([GitHub Repository](https://github.com/jeiso-n/surgeventa)).
 
 ## Architecture
 

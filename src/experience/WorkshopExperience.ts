@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import gsap from 'gsap';
 import { INTERACTIVE_STATION_ORDER, PROJECTS, STATIONS } from '../data/portfolio';
-import type { HotspotProjection, ProjectRecord, StationId } from '../types/workshop';
+import type { HotspotProjection, MonitorDisplayPayload, StationId } from '../types/workshop';
 import { SoundEngine } from './soundEngine';
 import { buildWorkshopWorld, type WorkshopWorldHandles } from './workshopWorld';
 
@@ -201,8 +201,8 @@ export class WorkshopExperience {
     this.flyToStation('overview', duration);
   }
 
-  public setActiveProject(project: ProjectRecord): void {
-    this.world.monitorDisplay.setProject(project);
+  public setMonitorContent(payload: MonitorDisplayPayload): void {
+    this.world.monitorDisplay.setDisplayContent(payload);
   }
 
   public setExternalHover(station: Exclude<StationId, 'overview'> | null): void {

@@ -1,5 +1,20 @@
 import * as THREE from 'three';
-import type { ProjectRecord } from '../types/workshop';
+import type { MonitorDisplayPayload, ProjectRecord } from '../types/workshop';
+
+export function projectToMonitorPayload(project: ProjectRecord): MonitorDisplayPayload {
+  return {
+    index: project.index,
+    totalLabel: `PROJECT ${project.index} OF 05`,
+    name: project.name,
+    tagline: project.tagline,
+    accent: project.screenTheme.accent,
+    secondary: project.screenTheme.secondary,
+    badge: project.screenTheme.badge,
+    previewImageUrl: project.screenTheme.previewImageUrl,
+    facts: project.screenTheme.facts,
+    modules: project.screenTheme.modules,
+  };
+}
 
 function createCanvas(width: number, height: number): [HTMLCanvasElement, CanvasRenderingContext2D] {
   const canvas = document.createElement('canvas');
@@ -329,22 +344,22 @@ export class DynamicMonitorDisplay {
   public readonly texture: THREE.CanvasTexture;
   private readonly ctx: CanvasRenderingContext2D;
   private readonly imageCache = new Map<string, HTMLImageElement>();
-  private project: ProjectRecord;
+  private content: MonitorDisplayPayload;
   private transitionFlash = 0;
 
   constructor(initialProject: ProjectRecord) {
     const [canvas, ctx] = createCanvas(1024, 512);
     this.canvas = canvas;
     this.ctx = ctx;
-    this.project = initialProject;
+    this.content = projectToMonitorPayload(initialProject);
     this.texture = new THREE.CanvasTexture(canvas);
     this.texture.colorSpace = THREE.SRGBColorSpace;
-    this.preloadPreview(initialProject);
+    this.preloadPreview(this.content);
     this.render(0);
   }
 
-  private preloadPreview(project: ProjectRecord): void {
-    const url = project.screenTheme.previewImageUrl;
+  private preloadPreview(payload: MonitorDisplayPayload): void {
+    const url = payload.previewImageUrl;
     if (!url || this.imageCache.has(url)) return;
     const img = new Image();
     img.crossOrigin = 'anonymous';
@@ -355,11 +370,15 @@ export class DynamicMonitorDisplay {
     img.src = url;
   }
 
-  public setProject(project: ProjectRecord): void {
-    this.project = project;
+  public setDisplayContent(payload: MonitorDisplayPayload): void {
+    this.content = payload;
     this.transitionFlash = 1;
-    this.preloadPreview(project);
+    this.preloadPreview(payload);
     this.render(0);
+  }
+
+  public setProject(project: ProjectRecord): void {
+    this.setDisplayContent(projectToMonitorPayload(project));
   }
 
   public update(elapsedTime: number, delta: number): void {
@@ -370,8 +389,7 @@ export class DynamicMonitorDisplay {
   }
 
   private render(_time: number): void {
-    const { ctx, project } = this;
-    const { screenTheme } = project;
+    const { ctx, content } = this;
 
     ctx.fillStyle = '#090d15';
     ctx.fillRect(0, 0, 1024, 512);
@@ -395,30 +413,30 @@ export class DynamicMonitorDisplay {
     // Header bar
     ctx.fillStyle = '#111826';
     ctx.fillRect(0, 0, 1024, 54);
-    ctx.fillStyle = screenTheme.accent;
+    ctx.fillStyle = content.accent;
     ctx.fillRect(0, 52, 1024, 2);
 
-    ctx.fillStyle = screenTheme.accent;
+    ctx.fillStyle = content.accent;
     ctx.font = 'bold 17px monospace';
-    ctx.fillText(`STATION 01 // ${screenTheme.badge}`, 28, 34);
+    ctx.fillText(`STATION 01 // ${content.badge}`, 28, 34, 720);
 
     ctx.fillStyle = '#9aa5b8';
     ctx.font = '15px monospace';
-    ctx.fillText(`PROJECT ${project.index} OF 05`, 826, 34);
+    ctx.fillText(content.totalLabel, 800, 34, 200);
 
-    const previewImg = screenTheme.previewImageUrl
-      ? this.imageCache.get(screenTheme.previewImageUrl)
+    const previewImg = content.previewImageUrl
+      ? this.imageCache.get(content.previewImageUrl)
       : undefined;
 
     if (previewImg) {
-      // Split showcase for primary project with genuine live preview screenshot
+      // Split showcase with genuine live preview screenshot
       ctx.fillStyle = '#f3efe6';
       ctx.font = 'bold 26px sans-serif';
-      ctx.fillText(project.name.toUpperCase(), 30, 102, 434);
+      ctx.fillText(content.name.toUpperCase(), 30, 102, 434);
 
       ctx.fillStyle = '#b7bfcf';
       ctx.font = '15px sans-serif';
-      ctx.fillText('Unified 2D + 3D Campus Navigation · Kampala', 30, 132, 434);
+      ctx.fillText(content.tagline.slice(0, 58), 30, 132, 434);
 
       // Real preview screenshot framed on the right
       const imgX = 486;
@@ -426,16 +444,16 @@ export class DynamicMonitorDisplay {
       const imgW = 508;
       const imgH = 294;
       ctx.drawImage(previewImg, imgX, imgY, imgW, imgH);
-      ctx.strokeStyle = screenTheme.accent;
+      ctx.strokeStyle = content.accent;
       ctx.lineWidth = 2;
       ctx.strokeRect(imgX, imgY, imgW, imgH);
 
       // Verified facts on the left
-      screenTheme.facts.forEach((fact, idx) => {
+      content.facts.forEach((fact, idx) => {
         const y = 160 + idx * 72;
         ctx.fillStyle = 'rgba(20, 27, 40, 0.94)';
         ctx.fillRect(30, y, 430, 58);
-        ctx.strokeStyle = idx === 0 ? screenTheme.accent : 'rgba(243,239,230,0.14)';
+        ctx.strokeStyle = idx === 0 ? content.accent : 'rgba(243,239,230,0.14)';
         ctx.lineWidth = 1.2;
         ctx.strokeRect(30, y, 430, 58);
 
@@ -445,7 +463,7 @@ export class DynamicMonitorDisplay {
 
         ctx.fillStyle = '#f3efe6';
         ctx.font = 'bold 20px monospace';
-        ctx.fillText(fact.value, 46, y + 46);
+        ctx.fillText(fact.value, 46, y + 46, 398);
       });
 
       // Bottom highlight strip
@@ -454,31 +472,31 @@ export class DynamicMonitorDisplay {
       ctx.strokeStyle = 'rgba(243,239,230,0.12)';
       ctx.strokeRect(30, 392, 964, 90);
 
-      ctx.fillStyle = screenTheme.secondary;
+      ctx.fillStyle = content.secondary;
       ctx.font = 'bold 14px monospace';
       ctx.fillText('VERIFIED HIGHLIGHTS', 48, 418);
 
-      screenTheme.modules.slice(0, 2).forEach((mod, idx) => {
+      content.modules.slice(0, 2).forEach((mod, idx) => {
         ctx.fillStyle = '#d7deea';
         ctx.font = '15px sans-serif';
-        ctx.fillText(`• ${mod}`, 48 + idx * 470, 456);
+        ctx.fillText(`• ${mod}`, 48 + idx * 470, 456, 450);
       });
     } else {
       // Clean architectural layout for projects without screenshots (zero fake terminal logs)
       ctx.fillStyle = '#f3efe6';
       ctx.font = 'bold 40px sans-serif';
-      ctx.fillText(project.name.toUpperCase(), 32, 114);
+      ctx.fillText(content.name.toUpperCase(), 32, 114, 960);
 
       ctx.fillStyle = '#b7bfcf';
       ctx.font = '18px sans-serif';
-      ctx.fillText(project.tagline.slice(0, 82), 32, 148);
+      ctx.fillText(content.tagline.slice(0, 82), 32, 148, 960);
 
-      screenTheme.facts.forEach((fact, index) => {
+      content.facts.forEach((fact, index) => {
         const x = 32 + index * 326;
         const y = 176;
         ctx.fillStyle = 'rgba(21, 28, 42, 0.92)';
         ctx.fillRect(x, y, 306, 78);
-        ctx.strokeStyle = index === 0 ? screenTheme.accent : 'rgba(243,239,230,0.14)';
+        ctx.strokeStyle = index === 0 ? content.accent : 'rgba(243,239,230,0.14)';
         ctx.lineWidth = 1.5;
         ctx.strokeRect(x, y, 306, 78);
 
@@ -488,7 +506,7 @@ export class DynamicMonitorDisplay {
 
         ctx.fillStyle = '#f3efe6';
         ctx.font = 'bold 22px monospace';
-        ctx.fillText(fact.value, x + 16, y + 58);
+        ctx.fillText(fact.value, x + 16, y + 58, 274);
       });
 
       ctx.fillStyle = 'rgba(17, 23, 35, 0.94)';
@@ -496,20 +514,20 @@ export class DynamicMonitorDisplay {
       ctx.strokeStyle = 'rgba(243,239,230,0.12)';
       ctx.strokeRect(32, 278, 960, 200);
 
-      ctx.fillStyle = screenTheme.secondary;
+      ctx.fillStyle = content.secondary;
       ctx.font = 'bold 15px monospace';
       ctx.fillText('VERIFIED ARCHITECTURE & SCOPE', 54, 310);
 
-      screenTheme.modules.forEach((mod, idx) => {
+      content.modules.forEach((mod, idx) => {
         const col = idx % 2;
         const row = Math.floor(idx / 2);
         const mx = 54 + col * 468;
         const my = 352 + row * 56;
-        ctx.fillStyle = screenTheme.accent;
+        ctx.fillStyle = content.accent;
         ctx.fillRect(mx, my - 10, 8, 8);
         ctx.fillStyle = '#d7deea';
         ctx.font = '17px sans-serif';
-        ctx.fillText(mod, mx + 20, my);
+        ctx.fillText(mod, mx + 20, my, 430);
       });
     }
 

@@ -2,14 +2,14 @@ import { useEffect, useRef } from 'react';
 import { INTERACTIVE_STATION_ORDER, STATIONS } from '../data/portfolio';
 import { WorkshopExperience } from '../experience/WorkshopExperience';
 import type { SoundEngine } from '../experience/soundEngine';
-import type { HotspotProjection, ProjectRecord, StationId } from '../types/workshop';
+import type { HotspotProjection, MonitorDisplayPayload, StationId } from '../types/workshop';
 
 interface WorkshopCanvasProps {
   sound: SoundEngine;
   entered: boolean;
   skipIntroMotion: boolean;
   activeStation: StationId;
-  activeProject: ProjectRecord;
+  monitorContent: MonitorDisplayPayload;
   showHotspots: boolean;
   hoveredStation: Exclude<StationId, 'overview'> | null;
   onReady: () => void;
@@ -23,7 +23,7 @@ export default function WorkshopCanvas({
   entered,
   skipIntroMotion,
   activeStation,
-  activeProject,
+  monitorContent,
   showHotspots,
   hoveredStation,
   onReady,
@@ -92,8 +92,8 @@ export default function WorkshopCanvas({
   }, [activeStation, entered]);
 
   useEffect(() => {
-    experienceRef.current?.setActiveProject(activeProject);
-  }, [activeProject]);
+    experienceRef.current?.setMonitorContent(monitorContent);
+  }, [monitorContent]);
 
   useEffect(() => {
     experienceRef.current?.setExternalHover(hoveredStation);

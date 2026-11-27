@@ -8,11 +8,22 @@ import { ContactSection } from './components/sections/ContactSection';
 import { ProjectsSection } from './components/sections/ProjectsSection';
 import { TechSection } from './components/sections/TechSection';
 import { YouTubeSection } from './components/sections/YouTubeSection';
+import {
+  CREATIVE_WORKFLOWS,
+  IN_DEVELOPMENT_PROJECTS,
+  WEBSITE_SHOWCASE,
+} from './data/expandedWork';
 import { PROJECTS } from './data/portfolio';
 import { YOUTUBE_CHANNEL_URL } from './data/youtube';
 import { SoundEngine } from './experience/soundEngine';
+import { projectToMonitorPayload } from './experience/textures';
 import { detectWebGLSupport } from './experience/WorkshopExperience';
-import type { ProjectKey, StationId } from './types/workshop';
+import type {
+  MonitorDisplayPayload,
+  ProjectKey,
+  StationId,
+  WorkstationCategory,
+} from './types/workshop';
 
 const WorkshopCanvas = lazy(() => import('./components/WorkshopCanvas'));
 
@@ -30,9 +41,11 @@ export function App() {
   const [skipIntroMotion, setSkipIntroMotion] = useState(false);
 
   const [activeStation, setActiveStation] = useState<StationId>('overview');
+  const [workstationCategory, setWorkstationCategory] = useState<WorkstationCategory>('software');
   const [selectedProjectId, setSelectedProjectId] = useState<ProjectKey>(
     'victoria-university-navigator',
   );
+  const [selectedWebsiteId, setSelectedWebsiteId] = useState<string>(WEBSITE_SHOWCASE[0].id);
   const [hoveredStation, setHoveredStation] = useState<Exclude<StationId, 'overview'> | null>(null);
   const [showHotspots, setShowHotspots] = useState(true);
   const [soundEnabled, setSoundEnabled] = useState(false);
@@ -41,6 +54,20 @@ export function App() {
     () => PROJECTS.find((p) => p.id === selectedProjectId) ?? PROJECTS[0],
     [selectedProjectId],
   );
+
+  const monitorContent: MonitorDisplayPayload = useMemo(() => {
+    if (workstationCategory === 'websites') {
+      const site = WEBSITE_SHOWCASE.find((w) => w.id === selectedWebsiteId) ?? WEBSITE_SHOWCASE[0];
+      return site.monitorPayload;
+    }
+    if (workstationCategory === 'workflows') {
+      return CREATIVE_WORKFLOWS[0].monitorPayload;
+    }
+    if (workstationCategory === 'in-development') {
+      return IN_DEVELOPMENT_PROJECTS[0].monitorPayload;
+    }
+    return projectToMonitorPayload(activeProject);
+  }, [activeProject, selectedWebsiteId, workstationCategory]);
 
   // Smooth staged loader progress while the 3D workshop initializes
   useEffect(() => {
@@ -72,7 +99,13 @@ export function App() {
   }, []);
 
   const handleOpenProjectFromTech = useCallback((projectId: ProjectKey) => {
+    setWorkstationCategory('software');
     setSelectedProjectId(projectId);
+    setActiveStation('projects');
+  }, []);
+
+  const handleOpenWorkstationCategory = useCallback((category: WorkstationCategory) => {
+    setWorkstationCategory(category);
     setActiveStation('projects');
   }, []);
 
@@ -150,7 +183,7 @@ export function App() {
             entered={entered}
             skipIntroMotion={skipIntroMotion}
             activeStation={activeStation}
-            activeProject={activeProject}
+            monitorContent={monitorContent}
             showHotspots={showHotspots}
             hoveredStation={hoveredStation}
             onReady={() => setSceneReady(true)}
@@ -163,6 +196,7 @@ export function App() {
         <FallbackStudioView
           webglAvailable={webglAvailable}
           onSelectStation={handleSelectStation}
+          onOpenWorkstationCategory={handleOpenWorkstationCategory}
           onEnable3D={() => {
             setSceneReady(false);
             setUse3D(true);
@@ -204,10 +238,20 @@ export function App() {
         >
           {activeStation === 'projects' && (
             <ProjectsSection
+              activeCategory={workstationCategory}
+              onSelectCategory={(cat) => {
+                soundRef.current?.playSelect();
+                setWorkstationCategory(cat);
+              }}
               selectedProjectId={selectedProjectId}
               onSelectProject={(id) => {
                 soundRef.current?.playSelect();
                 setSelectedProjectId(id);
+              }}
+              selectedWebsiteId={selectedWebsiteId}
+              onSelectWebsite={(id) => {
+                soundRef.current?.playSelect();
+                setSelectedWebsiteId(id);
               }}
             />
           )}

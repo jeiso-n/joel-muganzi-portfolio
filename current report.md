@@ -1,10 +1,10 @@
 # Joel Muganzi — Digital Workshop Portfolio (`current report.md`)
 
-- **Date:** 2026-11-26
+- **Date:** 2026-11-27
 - **Repository:** `D:\Projects\joel-muganzi-portfolio` (`main`)
 - **Remote:** `https://github.com/jeiso-n/joel-muganzi-portfolio.git`
-- **Live Site (GitHub Pages):** `https://jeiso-n.github.io/joel-muganzi-portfolio/` *(verified HTTP 200, 0 console errors)*
-- **Status:** Incremental glowing 3D YouTube Wall Sign + YouTube Media Station showcase added on top of the existing Digital Workshop without rebuilding existing architecture; verified with `npm run build`, `3/3` Playwright E2E tests (`0` console/page errors), visual QA screenshots, and live GitHub Pages deployment. Awaiting independent ChatGPT review.
+- **Live Site (GitHub Pages):** `https://jeiso-n.github.io/joel-muganzi-portfolio/` *(automated GitHub Pages deployment triggered on push to `origin/main`)*
+- **Status:** Incremental expansion implemented, verified with `npm run build` (`4.24s`), `3/3` Playwright E2E tests (`0` console/page errors), and visual QA screenshots; approved by owner and pushed to `origin/main` for automated GitHub Pages deployment. Awaiting independent ChatGPT review.
 
 ---
 
@@ -47,6 +47,19 @@
 5. **05 — Musomi Manager (`Active Development` · Last in Featured List)**
    - Source: `https://github.com/jeiso-n/musomi-manager`
    - Verified scope: Multi-client Ugandan secondary school learning-record system (Java 21, Spring Boot 4, JavaFX 21 desktop client, Thymeleaf student portal, PostgreSQL 16, Flyway migrations, PDF report cards). Positioned last per directive.
+
+### 3.1b Expanded Workstation Categories (`src/data/expandedWork.ts`, `src/components/sections/ProjectsSection.tsx`)
+
+All three new categories integrate inside **Station 01 · Workstation** via a 4-tab switcher (`Software (5)`, `Websites (3)`, `Workflows (1)`, `In Dev (1)`), dynamically updating the 3D Workstation primary monitor (`MonitorDisplayPayload`) and exposed via direct category shortcuts in **2D Fallback Mode**:
+
+- **Websites & Digital Experiences (`Websites` tab):**
+  1. **Enjo Constructions** (`https://enjocontructions.netlify.app/`, verified source `https://github.com/jeiso-n/enjo_constructions`, real screenshot `public/previews/enjo-constructions.png`) — Ugandan residential house designs, floor plans, and building tips site.
+  2. **Vee Creations** (`https://jeiso-n.github.io/vee-creations/`, verified source `https://github.com/jeiso-n/vee-creations`, real screenshot `public/previews/vee-creations.png`) — Kampala floral, handcrafted décor, and bespoke gift hampers showcase.
+  3. **T&T Junior School** (`https://tandtjuniorschool.com/`, real screenshot `public/previews/tt-junior-school.png`, no unverified GitHub repo invented) — Official web presence for T & T Nursery and Junior School in Kasenge, Wakiso, Uganda.
+- **Creative Production Workflows (`Workflows` tab):**
+  - **BlenderAIStudio** (`https://github.com/jeiso-n/BlenderAIStudio`) — Explicitly presented as an AI-directed 3D production workflow / reference repository (NOT a standalone app), detailing its 5-stage pipeline (Creative Brief → Live Blender 5.3 via BlendRelay MCP → Eevee Preview → FFprobe Verification → Hybrid Audio Post-Production Standard), verified integration smoke test, and in-review *Pole Drift* preview.
+- **Currently in Development (`In Dev` tab):**
+  - **Surgeventa** (`https://github.com/jeiso-n/surgeventa` — note: `https://github.com/jeiso-n/surgevent` returned `404`; inspected local `D:\Projects\surgeventa` and verified the live public GitHub repo `jeiso-n/surgeventa`, reflecting official brand update in commit `aeda0fd`) — Zero-spend unified social media publishing workspace (`Next.js 16`, `React 19`, `TypeScript`, `Neon PostgreSQL`, `Drizzle ORM`, `Better Auth`), honestly labeled **In Development · Milestone 2 Verified** with verified progress and upcoming milestones (no invented live demo).
 
 ### 3.2 Identity, Education, AI Engineering, Cybersecurity Learning, Blender & YouTube
 
@@ -93,11 +106,11 @@ Centralized in `src/config/publicEnv.ts` reading all 9 `VITE_PUBLIC_*` public br
 6. `dd32edf` — `ci(pages): configure relative asset paths and GitHub Pages deployment workflow`
 7. `7756d06` — `docs(pages): remove PAT-only enablement flag and document GitHub Pages setup`
 8. `6084aeb` — `docs: record verified live GitHub Pages deployment in current report`
-9. Incremental YouTube Wall Sign & Media Station feature commit — verified with `npm run build` (`4.76s`), `npm run test:e2e` (`3/3` passing, `0` console/page errors, verifying 3D sign hotspot, Blender 4-month spotlight, John the Ripper, Kali Linux, MySQL tutorials, click-to-play embed with zero autoplay, and 2D fallback YouTube link), visual QA screenshots, pushed to `origin/main`, and deployed via GitHub Actions to `https://jeiso-n.github.io/joel-muganzi-portfolio/`.
+9. `d3f8b25` — `feat(youtube): add glowing ON/OFF 3D YouTube wall sign and Workshop Media Station` (pushed to `origin/main`; GitHub Actions run `45814102352` succeeded; live verified on GitHub Pages).
+10. `feat(portfolio): add Websites, BlenderAIStudio workflow, and Surgeventa in-development categories` — approved by owner and pushed directly to `origin/main`, triggering `.github/workflows/deploy-pages.yml` to deploy to `https://jeiso-n.github.io/joel-muganzi-portfolio/`.
 
 ---
 
 ## 7. Outstanding Items & Recommended Next Steps
 
 - **Independent ChatGPT Review:** Ready for review against all acceptance criteria.
-- **Optional Future Visuals:** Screenshots for CodeSound Sync desktop workflow can be added under `public/previews/` later if desired.

@@ -135,6 +135,54 @@ test.describe('Joel Muganzi — Digital Workshop Portfolio', () => {
       'https://github.com/jeiso-n/musomi-manager',
     );
 
+    // 3b. Websites & Digital Experiences category (Enjo Constructions, Vee Creations, T&T Junior School)
+    const workstationCats = page.locator(
+      '[role="tablist"][aria-label="Workstation portfolio categories"] [role="tab"]',
+    );
+    await workstationCats.nth(1).click();
+    await expect(page.getByRole('heading', { name: 'Enjo Constructions' })).toBeVisible();
+    await expect(page.getByRole('link', { name: /Visit Website/i })).toHaveAttribute(
+      'href',
+      'https://enjocontructions.netlify.app/',
+    );
+    await expect
+      .poll(() =>
+        page.locator('.project-preview-img').evaluate((el: HTMLImageElement) => el.naturalWidth),
+      )
+      .toBeGreaterThan(200);
+
+    await page.getByRole('tab', { name: /Vee Creations/i }).click();
+    await expect(page.getByRole('heading', { name: 'Vee Creations' })).toBeVisible();
+    await expect(page.getByRole('link', { name: /Visit Website/i })).toHaveAttribute(
+      'href',
+      'https://jeiso-n.github.io/vee-creations/',
+    );
+
+    await page.getByRole('tab', { name: /T&T Junior School/i }).click();
+    await expect(page.getByRole('heading', { name: 'T&T Junior School' })).toBeVisible();
+    await expect(page.getByRole('link', { name: /Visit Website/i })).toHaveAttribute(
+      'href',
+      'https://tandtjuniorschool.com/',
+    );
+
+    // 3c. Creative Production Workflows category (BlenderAIStudio — workflow, not standalone app)
+    await workstationCats.nth(2).click();
+    await expect(page.getByRole('heading', { name: 'BlenderAIStudio' })).toBeVisible();
+    await expect(page.getByText(/NOT A STANDALONE APP/i)).toBeVisible();
+    await expect(page.getByRole('link', { name: /View Workflow Repository/i })).toHaveAttribute(
+      'href',
+      'https://github.com/jeiso-n/BlenderAIStudio',
+    );
+
+    // 3d. Currently in Development category (Surgeventa)
+    await workstationCats.nth(3).click();
+    await expect(page.getByRole('heading', { name: 'Surgeventa' })).toBeVisible();
+    await expect(page.getByText(/In Development/i).first()).toBeVisible();
+    await expect(page.getByRole('link', { name: /View GitHub Repository/i })).toHaveAttribute(
+      'href',
+      'https://github.com/jeiso-n/surgeventa',
+    );
+
     // 4. Field Notebook — education, cybersecurity learning, Blender 3D story, & YouTube Learning Lab
     await page.keyboard.press('2');
     await expect(page.getByRole('heading', { name: 'Field Notebook' })).toBeVisible();

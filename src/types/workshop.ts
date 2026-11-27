@@ -1,5 +1,20 @@
 export type StationId = 'overview' | 'projects' | 'about' | 'tech' | 'youtube' | 'contact';
 
+export type WorkstationCategory = 'software' | 'websites' | 'workflows' | 'in-development';
+
+export interface MonitorDisplayPayload {
+  index: string;
+  totalLabel: string;
+  name: string;
+  tagline: string;
+  accent: string;
+  secondary: string;
+  badge: string;
+  previewImageUrl?: string;
+  facts: { label: string; value: string }[];
+  modules: string[];
+}
+
 export type ProjectStatus =
   | 'Live Product'
   | 'Active Development'
